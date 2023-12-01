@@ -29,6 +29,23 @@ startQuiz.addEventListener('click', () => {
   mainScreen.classList.add('hide');
   // show the quiz questions
   questionsContainer.classList.remove('hide');    
+
+  // question title
+  const question = document.getElementById('question-title');    
+  const questionTitle = Object.keys(quizeQuestions[0])[0];
+  question.textContent = questionTitle;
+
+  // answers
+  const choice = document.getElementById('choices');
+  const choices = quizeQuestions[0][questionTitle];
+
+  for (let i = 0; i < choices.length; i++) {
+    const button = document.createElement('button');    
+    button.textContent = choices[i];
+    button.dataset.answer = i + 1;
+    choice.appendChild(button);    
+  }
+
 });
 
 

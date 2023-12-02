@@ -32,15 +32,16 @@ const timer = () => {
 }
 
 // display wrong/correct message to user
-const displayMessage = (message) => {
+const displayMessage = (message, color) => {
   const msg = document.getElementById('feedback');
   msg.textContent = message;
+  msg.style.color = color;
   msg.classList.remove('hide');
   
-  // setTimeout(() => {
-  //   msg.classList.add('hide');
-  //   msg.textContent = '';
-  // }, 1000)
+  setTimeout(() => {
+    msg.classList.add('hide');
+    msg.textContent = '';
+  }, 1000)
 }
 
 const displayQuestion = (index) => {
@@ -86,12 +87,10 @@ questionsContainer.addEventListener('click', (e) =>{
   const answerNumber = quizeQuestions[quizIndex][answer];
  
   if(userAnswer === answerNumber) {
-    displayMessage('Correct!');    
-  }else{    
-    console.log(`before - ${initTime}`);       
-    initTime -= 15;  
-    console.log(`after - ${initTime}`);       
-    displayMessage('Wrong!');
+    displayMessage('Correct!', "green");    
+  }else{        
+    initTime -= 15;        
+    displayMessage('Wrong!', "red");
   }
   
   if(initTime > 0 && quizIndex !== (quizeQuestions.length - 1)){
@@ -99,14 +98,15 @@ questionsContainer.addEventListener('click', (e) =>{
     displayQuestion(quizIndex);
   }else{
     if(initTime < 0) {
-      countdown.textContent = 0
+      countdown.textContent = 0;
     }else{
       countdown.textContent = initTime;
     }
-    
+
     clearInterval(startTimer);
     score.textContent = countdown.textContent;    
     questionsContainer.classList.add('hide');
     endScreen.classList.remove('hide');
   }
 });
+

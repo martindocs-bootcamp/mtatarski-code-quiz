@@ -10,7 +10,7 @@ const score = document.getElementById('final-score');
 let quizIndex = 0;
 let initTime = 75;
 let startTimer;
-let finalScore = 0;
+let leaderboard = [];
 
 // Function to display the timer
 const timer = () => {
@@ -41,7 +41,7 @@ const displayMessage = (message, color) => {
   setTimeout(() => {
     msg.classList.add('hide');
     msg.textContent = '';
-  }, 1000)
+  }, 2000)
 }
 
 const displayQuestion = (index) => {
@@ -110,3 +110,29 @@ questionsContainer.addEventListener('click', (e) =>{
   }
 });
 
+const submitButton = document.getElementById('submit');
+submitButton.addEventListener('click', () =>{
+
+  const initials = document.getElementById('initials');
+
+  if(initials.value === ""){
+    displayMessage('Field cannot be empty!', "red");
+    return;
+  } 
+
+  let getLocalStorage = JSON.parse(localStorage.getItem('leaderboard'));
+  if(!getLocalStorage){
+    localStorage.setItem('leaderboard', JSON.stringify([]));
+  }
+  
+  if(!getLocalStorage) getLocalStorage = [];
+  
+  getLocalStorage.push({
+    initials: initials.value, 
+    score: score.textContent
+  });
+ 
+  localStorage.setItem('leaderboard', JSON.stringify(getLocalStorage));
+
+  window.location.href = "./highscores.html";
+})

@@ -84,13 +84,13 @@ questionsContainer.addEventListener('click', (e) =>{
   const userAnswer = e.target.dataset.answer;  
   const answer = Object.keys(quizeQuestions[quizIndex])[1];
   const answerNumber = quizeQuestions[quizIndex][answer];
-
-
-  
+ 
   if(userAnswer === answerNumber) {
     displayMessage('Correct!');    
   }else{    
-    initTime -= 15;         
+    console.log(`before - ${initTime}`);       
+    initTime -= 15;  
+    console.log(`after - ${initTime}`);       
     displayMessage('Wrong!');
   }
   
@@ -98,7 +98,12 @@ questionsContainer.addEventListener('click', (e) =>{
     quizIndex++;
     displayQuestion(quizIndex);
   }else{
-    if(initTime < 0) countdown.textContent = 0;
+    if(initTime < 0) {
+      countdown.textContent = 0
+    }else{
+      countdown.textContent = initTime;
+    }
+    
     clearInterval(startTimer);
     score.textContent = countdown.textContent;    
     questionsContainer.classList.add('hide');

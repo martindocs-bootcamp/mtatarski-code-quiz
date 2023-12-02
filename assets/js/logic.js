@@ -12,7 +12,7 @@ const timer = () => {
   // interval the timer decreasing by one second
   const startTimer = setInterval(() => {
     initTime--;
-    countdown.textContent = initTime;
+    countdown.textContent = initTime > 0 ? initTime : 0;
 
     // stop the timer if is zero
     if(initTime === 0) clearInterval(startTimer);

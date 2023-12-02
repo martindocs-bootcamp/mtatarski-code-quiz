@@ -113,6 +113,11 @@ startQuiz.addEventListener('click', () => {
   displayQuestion(quizIndex);  
 });
 
+// Audio to correct answer
+const correctAudio = new Audio('assets/sfx/correct.wav');
+// Audio to incorrect answer
+const incorrectAudio = new Audio('assets/sfx/incorrect.wav');
+
 // Event listener for user clicks on answer choices
 questionsContainer.addEventListener('click', (e) =>{
   // Get the user answer numer
@@ -126,11 +131,13 @@ questionsContainer.addEventListener('click', (e) =>{
  
    // Check if the user's answer is correct
   if(userAnswer === answerNumber) {
-    displayMessage('Correct!', "green");    
+    displayMessage('Correct!', "green");  
+    correctAudio.play();  
   }else{      
     // Deduct 15 seconds for a wrong answer  
     initTime -= 15;        
     displayMessage('Wrong!', "red");
+    incorrectAudio.play(); 
   }
   
   // Move to the next question or end the quiz if no more questions
@@ -168,6 +175,7 @@ submitButton.addEventListener('click', () =>{
   // Validate that initials are not empty
   if(initials.value === ""){
     displayMessage('Field cannot be empty!', "red");
+    incorrectAudio.play();
     return;
   } 
 

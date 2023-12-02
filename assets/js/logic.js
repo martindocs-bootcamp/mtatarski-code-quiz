@@ -37,10 +37,10 @@ const displayMessage = (message) => {
   msg.textContent = message;
   msg.classList.remove('hide');
   
-  setTimeout(() => {
-    msg.classList.add('hide');
-    msg.textContent = '';
-  }, 1000)
+  // setTimeout(() => {
+  //   msg.classList.add('hide');
+  //   msg.textContent = '';
+  // }, 1000)
 }
 
 const displayQuestion = (index) => {
@@ -89,8 +89,8 @@ questionsContainer.addEventListener('click', (e) =>{
   
   if(userAnswer === answerNumber) {
     displayMessage('Correct!');    
-  }else{
-    initTime -= 15;     
+  }else{    
+    initTime -= 15;         
     displayMessage('Wrong!');
   }
   
@@ -98,8 +98,7 @@ questionsContainer.addEventListener('click', (e) =>{
     quizIndex++;
     displayQuestion(quizIndex);
   }else{
-
-
+    if(initTime < 0) countdown.textContent = 0;
     clearInterval(startTimer);
     score.textContent = countdown.textContent;    
     questionsContainer.classList.add('hide');

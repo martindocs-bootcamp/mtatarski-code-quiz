@@ -1,6 +1,12 @@
 const quizeQuestions = questions;
+const mainScreen = document.querySelector('.start');
+const questionsContainer = document.getElementById('questions');
+const startQuiz = document.getElementById('start');
+const endScreen = document.getElementById('end-screen');
+
 let quizIndex = 0;
 let initTime = 75;
+let startTimer;
 
 // Function to display the timer
 const timer = () => {
@@ -10,12 +16,16 @@ const timer = () => {
   countdown.textContent = initTime;
 
   // interval the timer decreasing by one second
-  const startTimer = setInterval(() => {
+  startTimer = setInterval(() => {
     initTime--;
     countdown.textContent = initTime > 0 ? initTime : 0;
 
     // stop the timer if is zero
-    if(initTime === 0) clearInterval(startTimer);
+    if(initTime === 0) {      
+      clearInterval(startTimer);
+      questionsContainer.classList.add('hide');
+      endScreen.classList.remove('hide');
+    };
   }, 1000);
 }
 
@@ -54,12 +64,10 @@ const displayQuestion = (index) => {
     }
   }
 
-const startQuiz = document.getElementById('start');
+
 startQuiz.addEventListener('click', () => {
   timer();
 
-  const mainScreen = document.querySelector('.start');
-  const questionsContainer = document.getElementById('questions');
 
   // hide the start screen
   mainScreen.classList.add('hide');
@@ -68,21 +76,28 @@ startQuiz.addEventListener('click', () => {
   displayQuestion(quizIndex);  
 });
 
-const questionsContainer = document.getElementById('questions');
+// const questionsContainer = document.getElementById('questions');
 questionsContainer.addEventListener('click', (e) =>{
   
   const userAnswer = e.target.dataset.answer;  
   const answer = Object.keys(quizeQuestions[quizIndex])[1];
   const answerNumber = quizeQuestions[quizIndex][answer];
 
+  
   if(userAnswer === answerNumber) {
     displayMessage('Correct!');    
   }else{
     initTime -= 15;     
     displayMessage('Wrong!');
   }
- 
-  quizIndex++;
-  displayQuestion(quizIndex);
+  
+  if(initTime > 0 && quizIndex !== (quizeQuestions.length - 1)){
+    quizIndex++;
+    displayQuestion(quizIndex);
+  }else{
+    clearInterval(startTimer);
+    questionsContainer.classList.add('hide');
+    endScreen.classList.remove('hide');
+  }
 });
 

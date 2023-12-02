@@ -8,7 +8,7 @@ const countdown = document.getElementById('time');
 const score = document.getElementById('final-score');
 
 let quizIndex = 0;
-let initTime = 75;
+let initTime = quizeQuestions.length * 15;
 let startTimer;
 let leaderboard = [];
 
@@ -67,7 +67,6 @@ const displayQuestion = (index) => {
       choice.appendChild(button);    
     }
   }
-
 
 startQuiz.addEventListener('click', () => {
   timer();
@@ -134,6 +133,7 @@ submitButton.addEventListener('click', () =>{
   });
  
   localStorage.setItem('leaderboard', JSON.stringify(getLocalStorage));
+
 
   window.location.href = "./highscores.html";
 })

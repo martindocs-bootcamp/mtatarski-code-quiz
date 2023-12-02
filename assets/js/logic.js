@@ -3,15 +3,17 @@ const mainScreen = document.querySelector('.start');
 const questionsContainer = document.getElementById('questions');
 const startQuiz = document.getElementById('start');
 const endScreen = document.getElementById('end-screen');
+// get the element to display time
+const countdown = document.getElementById('time');
+const score = document.getElementById('final-score');
 
 let quizIndex = 0;
 let initTime = 75;
 let startTimer;
+let finalScore = 0;
 
 // Function to display the timer
 const timer = () => {
-  // get the element to display time
-  const countdown = document.getElementById('time');
   // set the initial time on the screen
   countdown.textContent = initTime;
 
@@ -83,6 +85,7 @@ questionsContainer.addEventListener('click', (e) =>{
   const answer = Object.keys(quizeQuestions[quizIndex])[1];
   const answerNumber = quizeQuestions[quizIndex][answer];
 
+
   
   if(userAnswer === answerNumber) {
     displayMessage('Correct!');    
@@ -95,9 +98,11 @@ questionsContainer.addEventListener('click', (e) =>{
     quizIndex++;
     displayQuestion(quizIndex);
   }else{
+
+
     clearInterval(startTimer);
+    score.textContent = countdown.textContent;    
     questionsContainer.classList.add('hide');
     endScreen.classList.remove('hide');
   }
 });
-

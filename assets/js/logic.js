@@ -1,20 +1,21 @@
 const quizeQuestions = questions;
 let quizIndex = 0;
+let initTime = 75;
 
 // Function to display the timer
-const timer = (time) => {
+const timer = () => {
   // get the element to display time
   const countdown = document.getElementById('time');
   // set the initial time on the screen
-  countdown.textContent = time;
+  countdown.textContent = initTime;
 
   // interval the timer decreasing by one second
   const startTimer = setInterval(() => {
-    time--;
-    countdown.textContent = time;
+    initTime--;
+    countdown.textContent = initTime;
 
     // stop the timer if is zero
-    if(time === 0) clearInterval(startTimer);
+    if(initTime === 0) clearInterval(startTimer);
   }, 1000);
 }
 
@@ -44,7 +45,7 @@ const displayQuestion = (index) => {
   while (choice.firstChild) {
     choice.removeChild(choice.firstChild);
   }   
-    
+  
   for (let i = 0; i < choices.length; i++) {
     const button = document.createElement('button');    
       button.textContent = choices[i];
@@ -54,9 +55,8 @@ const displayQuestion = (index) => {
   }
 
 const startQuiz = document.getElementById('start');
-
 startQuiz.addEventListener('click', () => {
-  timer(75);
+  timer();
 
   const mainScreen = document.querySelector('.start');
   const questionsContainer = document.getElementById('questions');
@@ -66,7 +66,6 @@ startQuiz.addEventListener('click', () => {
   // show the quiz questions
   questionsContainer.classList.remove('hide');    
   displayQuestion(quizIndex);  
-
 });
 
 const questionsContainer = document.getElementById('questions');
@@ -77,11 +76,13 @@ questionsContainer.addEventListener('click', (e) =>{
   const answerNumber = quizeQuestions[quizIndex][answer];
 
   if(userAnswer === answerNumber) {
-    displayMessage('Correct!')    
+    displayMessage('Correct!');    
   }else{
-    displayMessage('Wrong!')
+    initTime -= 15;     
+    displayMessage('Wrong!');
   }
  
   quizIndex++;
   displayQuestion(quizIndex);
 });
+

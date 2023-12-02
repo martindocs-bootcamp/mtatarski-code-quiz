@@ -25,6 +25,7 @@ const timer = () => {
     // stop the timer if is zero
     if(initTime === 0) {      
       clearInterval(startTimer);
+      score.textContent = countdown.textContent;
       questionsContainer.classList.add('hide');
       endScreen.classList.remove('hide');
     };

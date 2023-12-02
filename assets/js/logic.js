@@ -114,9 +114,9 @@ startQuiz.addEventListener('click', () => {
 });
 
 // Audio to correct answer
-const correctAudio = new Audio('assets/sfx/correct.wav');
+const correctAudio = new Audio('./assets/sfx/correct.wav');
 // Audio to incorrect answer
-const incorrectAudio = new Audio('assets/sfx/incorrect.wav');
+const incorrectAudio = new Audio('./assets/sfx/incorrect.wav');
 
 // Event listener for user clicks on answer choices
 questionsContainer.addEventListener('click', (e) =>{

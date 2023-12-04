@@ -72,6 +72,13 @@ li:nth-child(odd) {
   left: 10px;
 }
 
+.question-count{
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .feedback {
   font-style: italic;
   font-size: 120%;

@@ -1,19 +1,27 @@
-// Array of questions
-const quizeQuestions = questions;
+// Get code quiz questions
+const quizQuestions = questions;
 
 // DOM elements
-const mainScreen = document.querySelector('.start');
-const questionsContainer = document.getElementById('questions');
 const startQuiz = document.getElementById('start');
-const endScreen = document.getElementById('end-screen');
+const questionCount = document.getElementById('question-count');
+const mainScreen = document.querySelector('.start');
 const countdown = document.getElementById('time');
+const questionsContainer = document.getElementById('questions');
+const endScreen = document.getElementById('end-screen');
 const score = document.getElementById('final-score');
+const submitButton = document.getElementById('submit');
+
+// Audio to correct answer
+const correctAudio = new Audio('./assets/sfx/correct.wav');
+
+// Audio to incorrect answer
+const incorrectAudio = new Audio('./assets/sfx/incorrect.wav');
 
 // Variable for controling Quiz questions display
 let quizIndex = 0;
 
 // Set the initial time for the quiz 
-let initTime = quizeQuestions.length * 15;
+let initTime = quizQuestions.length * 15;
 
 // Variable for the timer
 let startTimer;
@@ -74,7 +82,7 @@ const displayQuestion = (index) => {
   const question = document.getElementById('question-title');    
 
   // Get the question title
-  const questionTitle = Object.keys(quizeQuestions[index])[0];
+  const questionTitle = Object.keys(quizQuestions[index])[0];
 
   // Show the question title on screen
   question.textContent = questionTitle;
@@ -82,7 +90,7 @@ const displayQuestion = (index) => {
   const choice = document.getElementById('choices');
 
   // Possible answers choices
-  const choices = quizeQuestions[index][questionTitle];
+  const choices = quizQuestions[index][questionTitle];
 
   // Remove existing answers choices  
   while (choice.firstChild) {
@@ -95,42 +103,49 @@ const displayQuestion = (index) => {
       button.textContent = choices[i];
       button.dataset.answer = i + 1;
       choice.appendChild(button);    
-    }
   }
+}
+
+// Function to display question count
+const displayQuestionCount = (index) => {
+
+  // Start count from first question
+  const currentQuestion = index + 1;
+
+  // Display question count on screen
+  questionCount.textContent = `${currentQuestion} of ${quizQuestions.length} Question`;
+}
 
 // Event listener for the start quiz button
 startQuiz.addEventListener('click', () => {
   // Start the timer
   timer();
-
+  
   // Hide the start screen and show the quiz questions
   mainScreen.classList.add('hide');
 
   // Show the quiz questions screen
   questionsContainer.classList.remove('hide');   
 
+  displayQuestionCount(quizIndex);
+
   // Function to display each question on screen   
   displayQuestion(quizIndex);  
 });
 
-// Audio to correct answer
-const correctAudio = new Audio('./assets/sfx/correct.wav');
-// Audio to incorrect answer
-const incorrectAudio = new Audio('./assets/sfx/incorrect.wav');
-
 // Event listener for user clicks on answer choices
 questionsContainer.addEventListener('click', (e) =>{
-  // Get the user answer numer
-  const userAnswer = e.target.dataset.answer;  
+  // Get the user answer
+  const userAnswerNumber = e.target.dataset.answer;  
 
-  // Get the right answer number to the question
-  const answer = Object.keys(quizeQuestions[quizIndex])[1];
+  // Get the right answer to the question
+  const answer = Object.keys(quizQuestions[quizIndex])[1];
 
   // Get the right answer
-  const answerNumber = quizeQuestions[quizIndex][answer];
+  const quizAnswerNumber = quizQuestions[quizIndex][answer];
  
    // Check if the user's answer is correct
-  if(userAnswer === answerNumber) {
+  if(userAnswerNumber === quizAnswerNumber) {
     displayMessage('Correct!', "green");  
     correctAudio.play();  
   }else{      
@@ -141,8 +156,9 @@ questionsContainer.addEventListener('click', (e) =>{
   }
   
   // Move to the next question or end the quiz if no more questions
-  if(initTime > 0 && quizIndex !== (quizeQuestions.length - 1)){
+  if(initTime > 0 && quizIndex !== (quizQuestions.length - 1)){
     quizIndex++;
+    displayQuestionCount(quizIndex); // Increase the question count
     displayQuestion(quizIndex);
   }else{
     if(initTime < 0) {
@@ -162,13 +178,15 @@ questionsContainer.addEventListener('click', (e) =>{
     // Hide the questions screen
     questionsContainer.classList.add('hide');
 
+    // Remove questions count 
+    questionCount.textContent = '';
+
     // Show the Score screen
     endScreen.classList.remove('hide');
   }
 });
 
 // Event listener for the submit button (after quiz completion)
-const submitButton = document.getElementById('submit');
 submitButton.addEventListener('click', () =>{
   const initials = document.getElementById('initials');
 

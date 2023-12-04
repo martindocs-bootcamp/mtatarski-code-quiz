@@ -21,7 +21,7 @@ getLeaderboard.forEach((user) => {
   // Create a new list item element
   const li = document.createElement('li');
 
-  // Set the text content of the list item to show user initials and scor
+  // Set the text content of the list item to show user initials and score
   li.textContent = `${initials} - ${score}`;
 
    // Append the list item to the 'highscores' element

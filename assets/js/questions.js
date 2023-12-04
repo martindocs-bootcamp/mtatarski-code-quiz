@@ -1,4 +1,3 @@
-// Define an array of questions, where each represented as an object
 const questions = [
   {
     'The result of adding a number and a string in JavaScript is:' : ['1. A new data type', '2. A mathematical error', '3. A string concatenation', '4. A boolean value'],
